@@ -5,7 +5,7 @@ library(ggplot2)
 library(prophet)
 library(magrittr)
 library(MLmetrics)
-Bitcoin <- read_excel("data/Bitcoin.xlsx")
+Bitcoin <- read_excel("data/Bitcoin_dataframe.xlsx")
 data1 <- Bitcoin %>% 
   select(Date, Close) %>% 
   rename(date = Date, y = Close) %>% 

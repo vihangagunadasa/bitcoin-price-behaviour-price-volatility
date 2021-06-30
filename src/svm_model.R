@@ -4,10 +4,10 @@ library(dplyr)
 library(tidyr)
 library(MLmetrics)
 library(readxl)
-source("lag_dataset.R")
+source("src/lag_dataset.R")
 
-train_df <- read_excel("svm training set.xlsx")
-test_df <- read_excel("svm testing set.xlsx")
+train_df <- read_excel("data/training set.xlsx")
+test_df <- read_excel("data/testing set.xlsx")
 colnames(train_df)[1] <- "Date"
 colnames(train_df)[4] <- "Market_Cap"
 colnames(test_df)[4] <- "Market_Cap"
@@ -23,24 +23,14 @@ divide_mutation <- function(df){
 
 need_to_add_mc_volume_divided<-FALSE
 need_to_add_close_lagged <- TRUE
-need_to_add_litecoin_ethereum_lagged<-TRUE
+need_to_add_litecoin_ethereum_lagged<-FALSE
 
 train_df <-subset(train_df,select=-Variance)
 test_df <-subset(test_df,select=-Variance)
 df <- rbind(train_df,test_df)
 
-
-# train_df <- train_df %>% divide_mutation()
-# test_df <- test_df %>% divide_mutation()
 df <- df %>% divide_mutation()
 df <- subset(df,select=-c(Market_Cap,Volume))
-# train_df_wo_date <- subset(train_df,select=-Date)
-# test_df_wo_date <- subset(test_df,select=-Date)
-# df_wo_date <- subset(df,select=-Date)
-
-# validation_indice <- floor(nrow(train_df) * 0.85)
-# train_df_wo_validation <- train_df_wo_date[1:validation_indice,]
-# validation_df_wo_date <- train_df_wo_date[(validation_indice+1):nrow(train_df),]
 
 start_lag_step <- 1
 end_lag_step <- 8
