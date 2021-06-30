@@ -4,13 +4,14 @@ library(ggplot2)
 library(tidyr)
 library(MLmetrics)
 library(readxl)
-source("lag_dataset.R")
+library(dplyr)
+source("src/lag_dataset.R")
 
 h2o.init(nthreads = -1,max_mem_size = '2G')
 h2o.removeAll()
 
-train_df <- read_excel("svm training set.xlsx")
-test_df <- read_excel("svm testing set.xlsx")
+train_df <- read_excel("data/training set.xlsx")
+test_df <- read_excel("data/testing set.xlsx")
 colnames(train_df)[1] <- "Date"
 colnames(train_df)[4] <- "Market_Cap"
 colnames(test_df)[4] <- "Market_Cap"
@@ -32,10 +33,10 @@ divide_mutation<-function(df){
                 Market_Cap_divided=Market_Cap/mc_divisor)
 }
 
-need_to_add_mc_volume_divided<-TRUE
-need_to_add_close_lagged <- FALSE
+need_to_add_mc_volume_divided<-FALSE
+need_to_add_close_lagged <- TRUE
 need_to_add_litecoin_ethereum_lagged<-TRUE
-need_grid_search <- TRUE
+need_grid_search <- FALSE
 
 train_df <-subset(train_df,select=-Variance)
 test_df <-subset(test_df,select=-Variance)
